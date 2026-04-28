@@ -1,36 +1,56 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>berUANG - @yield('title')</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Expense Tracker') }}</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    @yield('header')
-                </h2>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-indigo-800 text-white flex flex-col">
+            <div class="p-5 font-bold text-xl border-b border-indigo-700">berUANG</div>
+            <nav class="flex-1 mt-5">
+                <a href="{{ route('dashboard') }}" class="block py-2.5 px-5 hover:bg-indigo-700">
+                    📊 Dashboard
+                </a>
+                <a href="{{ route('transactions.index') }}" class="block py-2.5 px-5 hover:bg-indigo-700">
+                    💰 Transaksi
+                </a>
+                <a href="{{ route('categories.index') }}" class="block py-2.5 px-5 hover:bg-indigo-700">
+                    🏷️ Kategori
+                </a>
+            </nav>
+            <div class="p-5 border-t border-indigo-700">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="w-full text-left text-white hover:text-gray-200">
+                        🚪 Logout
+                    </button>
+                </form>
             </div>
-        </header>
-        <main>
-            <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <div class="bg-white shadow-md p-4">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-xl font-semibold">@yield('header')</h1>
+                    <div class="text-gray-600">{{ auth()->user()->name }}</div>
+                </div>
+            </div>
+            <div class="p-6">
                 @if(session('success'))
-                    <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                         {{ session('success') }}
                     </div>
                 @endif
                 @yield('content')
             </div>
-        </main>
+        </div>
     </div>
 </body>
 </html>

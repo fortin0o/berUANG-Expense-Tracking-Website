@@ -1,22 +1,24 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FrameController;
 use Illuminate\Support\Facades\Route;
 
+// Landing Page (bisa diakses semua orang)
 Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+    return view('landing');
+})->name('landing');
 
-// Semua route yang membutuhkan login harus berada di dalam group ini
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [TransactionController::class, 'index'])->name('dashboard'); // ✅ Sudah dilindungi
-    
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::resource('transactions', TransactionController::class)->only(['create', 'store', 'destroy']);
-});
-
+// Routes Breeze (auth)
 require __DIR__.'/auth.php';
+
+// Routes yang membutuhkan autentikasi
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('transactions', TransactionController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::get('/frame', [FrameController::class, 'index'])->name('frame');
+});

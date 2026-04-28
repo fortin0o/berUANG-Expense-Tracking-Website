@@ -10,24 +10,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
-        return view('auth.register');
+        return view('auth.register'); // Tetap pakai view custom Anda
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws ValidationException
-     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -42,8 +33,23 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        // Create default categories
+        $defaultCategories = [
+            ['name' => 'Gaji', 'type' => 'income'],
+            ['name' => 'Freelance', 'type' => 'income'],
+            ['name'=> 'Investasi', 'type' => 'income'],
+            ['name' => 'Makanan', 'type' => 'expense'],
+            ['name' => 'Transportasi', 'type' => 'expense'],
+            ['name' => 'Belanja', 'type' => 'expense'],
+            ['name' => 'Tagihan', 'type' => 'expense'],
+            ['name' => 'Hiburan', 'type' => 'expense'],
+        ];
 
+        foreach ($defaultCategories as $cat) {
+            $user->categories()->create($cat);
+        }
+
+        event(new Registered($user));
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
