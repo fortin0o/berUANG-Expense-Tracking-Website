@@ -1,29 +1,61 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
+@section('header', 'Edit Profile')
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
+@section('content')
+<div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow">
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
+    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <!-- FOTO -->
+        <div class="text-center mb-6">
+            <img 
+                src="{{ $user->profile_photo 
+                    ? asset('storage/' . $user->profile_photo) 
+                    : 'https://via.placeholder.com/100' }}"
+                class="w-24 h-24 rounded-full mx-auto mb-3 object-cover"
+            >
+
+            <input type="file" name="photo" class="text-sm">
         </div>
-    </div>
-</x-app-layout>
+
+        <!-- NAME -->
+        <div class="mb-4">
+            <label class="block mb-1 font-semibold">Nama</label>
+            <input type="text" name="name" value="{{ $user->name }}"
+                class="w-full border rounded-lg px-4 py-2">
+        </div>
+
+        <!-- EMAIL -->
+        <div class="mb-6">
+            <label class="block mb-1 font-semibold">Email</label>
+            <input type="email" name="email" value="{{ $user->email }}"
+                class="w-full border rounded-lg px-4 py-2">
+        </div>
+
+    <div class="flex items-center justify-end gap-3 mt-8">
+
+    <!-- Logout -->
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit"
+            class="px-5 py-2 rounded-lg text-sm font-medium
+                   bg-red-500 hover:bg-red-600 text-white
+                   transition duration-200">
+            Logout
+        </button>
+    </form>
+
+    <!-- Simpan -->
+    <button type="submit"
+        class="px-6 py-2 rounded-lg font-semibold
+               bg-[#4F772D] hover:bg-[#3f6123] text-white
+               shadow-md hover:shadow-lg
+               transition duration-200">
+        Simpan Perubahan
+    </button>
+
+</div>
+</div>
+@endsection

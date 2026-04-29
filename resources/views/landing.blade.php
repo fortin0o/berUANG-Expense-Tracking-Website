@@ -1424,21 +1424,21 @@
             
             <div class="cards-row">
                 <div class="card card-green">
-                    <div class="card-icon" style="background-image: url('{{ asset("images/6-removebg-preview.png") }}')"></div>
+                    <div class="card-icon" style="background-image: url('{{ asset("images/6-removebg-preview 1.png") }}')"></div>
                     <div class="card-badge card-badge-white">CATAT DENGAN MUDAH</div>
                     <h3 class="card-title">Pencatatan Transaksi Cepat</h3>
                     <p class="card-desc">Catat pemasukan dan pengeluaran hanya dalam beberapa detik tanpa ribet.</p>
                 </div>
                 
                 <div class="card card-white">
-                    <div class="card-icon" style="background-image: url('{{ asset("images/7-removebg-preview.png") }}')"></div>
+                    <div class="card-icon" style="background-image: url('{{ asset("images/7-removebg-preview 1.png") }}')"></div>
                     <div class="card-badge">PANTAU KEUANGAN</div>
                     <h3 class="card-title">Monitoring Keuangan</h3>
                     <p class="card-desc">Lihat kondisi keuanganmu secara real-time tanpa perlu hitung manual.</p>
                 </div>
                 
-                <div class="card card-white">
-                    <div class="card-icon" style="background-image: url('{{ asset("images/2-removebg-preview.png") }}')"></div>
+                <div class="card card-green">
+                    <div class="card-icon" style="background-image: url('{{ asset("images/2-removebg-preview 1.png") }}')"></div>
                     <div class="card-badge">ANALISIS CERDAS</div>
                     <h3 class="card-title">Laporan & Grafik</h3>
                     <p class="card-desc">Visualisasikan pengeluaranmu dengan grafik yang mudah dipahami.</p>
@@ -1447,21 +1447,21 @@
             
             <div class="cards-row">
                 <div class="card card-white">
-                    <div class="card-icon" style="background-image: url('{{ asset("images/5-removebg-preview.png") }}')"></div>
+                    <div class="card-icon" style="background-image: url('{{ asset("images/5-removebg-preview 1.png") }}')"></div>
                     <div class="card-badge">KELOLA DATA</div>
                     <h3 class="card-title">Manajemen Kategori</h3>
                     <p class="card-desc">Kelompokkan transaksi agar lebih rapi dan mudah dianalisis.</p>
                 </div>
                 
-                <div class="card card-white">
-                    <div class="card-icon" style="background-image: url('{{ asset("images/8-removebg-preview.png") }}')"></div>
+                <div class="card card-green">
+                    <div class="card-icon" style="background-image: url('{{ asset("images/8-removebg-preview 1.png") }}')"></div>
                     <div class="card-badge">KONTROL PENGELUARAN</div>
                     <h3 class="card-title">Budget Control</h3>
                     <p class="card-desc">Atur batas pengeluaran dan tetap kendalikan keuanganmu.</p>
                 </div>
                 
                 <div class="card card-white">
-                    <div class="card-icon" style="background-image: url('{{ asset("images/4-removebg-preview.png") }}')"></div>
+                    <div class="card-icon" style="background-image: url('{{ asset("images/4-removebg-preview 1.png") }}')"></div>
                     <div class="card-badge">AKSES MUDAH</div>
                     <h3 class="card-title">Akses Kapan Saja</h3>
                     <p class="card-desc">Gunakan aplikasi ini di mana saja melalui web, tanpa install apa pun.</p>

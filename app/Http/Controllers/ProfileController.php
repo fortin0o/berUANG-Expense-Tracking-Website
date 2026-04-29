@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Tampilkan halaman profile
      */
     public function edit(Request $request): View
     {
@@ -22,27 +21,38 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Update profile (name, email, foto)
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = Auth::user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        // Upload foto
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('profile', 'public');
+            $user->profile_photo = $path;
         }
 
-        $request->user()->save();
+        $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return back()->with('success', 'Profile berhasil diupdate!');
     }
 
     /**
-     * Delete the user's account.
+     * Hapus akun
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
+        $request->validate([
             'password' => ['required', 'current_password'],
         ]);
 
