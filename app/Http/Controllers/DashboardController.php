@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Services\GeminiService;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -77,34 +78,20 @@ class DashboardController extends Controller
         $categoryData = $categories->pluck('total');
 
         // =====================
-        // 🧠 AI INSIGHT ENGINE (FIXED PRIORITY LOGIC)
+        // 🤖 GEMINI AI INSIGHT
         // =====================
+        $topCategories = $categories->take(3)->map(fn($c) => [
+            'name'  => $c->name,
+            'total' => $c->total,
+        ])->toArray();
 
-        $insight = "💡 Keuangan kamu masih stabil, lanjutkan pola ini.";
-
-        // 1. PRIORITAS TERBURUK: DEFISIT
-        if ($balance < 0) {
-            $insight = "🚨 DEFISIT! Pengeluaran lebih besar dari pemasukan. Segera kurangi pengeluaran.";
-        }
-
-        // 2. SALDO SANGAT RENDAH
-        elseif ($balance > 0 && $balance < 50000) {
-            $insight = "⚠️ Saldo kamu hampir habis. Hati-hati dalam pengeluaran.";
-        }
-
-        // 3. BOROS (>70%)
-        elseif ($totalIncome > 0 && $totalExpense > $totalIncome * 0.7) {
-            $insight = "💸 Kamu sudah menghabiskan lebih dari 70% pemasukan. Waspada boros!";
-        }
-
-        // 4. KATEGORI TERBESAR
-        elseif ($categories->count() > 0) {
-            $top = $categories->first();
-
-            $insight = "🔥 Pengeluaran terbesar kamu ada di kategori "
-                . $top->name
-                . " (Rp " . number_format($top->total, 0, ',', '.') . ")";
-        }
+        $gemini = new GeminiService();
+        $insight = $gemini->dashboardInsight(
+            $balance,
+            $totalIncome,
+            $totalExpense,
+            $topCategories
+        );
 
         // =====================
         // RETURN VIEW

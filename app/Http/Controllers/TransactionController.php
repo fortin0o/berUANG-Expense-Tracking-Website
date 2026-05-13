@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Category;
+use App\Services\GeminiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -160,7 +161,13 @@ class TransactionController extends Controller
 
         $balance = $totalIncome - $totalExpense;
 
-        $insight = $this->generateInsight($balance, $totalIncome, $totalExpense);
+        $gemini = new GeminiService();
+        $insight = $gemini->reportInsight(
+            $balance,
+            $totalIncome,
+            $totalExpense,
+            $transactions->count()
+        );
 
         $pdf = Pdf::loadView('pdf.transactions', compact(
             'transactions',
@@ -171,25 +178,5 @@ class TransactionController extends Controller
         ));
 
         return $pdf->download('laporan-transaksi.pdf');
-    }
-
-    // =========================
-    // AI INSIGHT ENGINE
-    // =========================
-    private function generateInsight($balance, $income, $expense)
-    {
-        if ($balance < 0) {
-            return "⚠️ Defisit: pengeluaran lebih besar dari pemasukan.";
-        }
-
-        if ($expense > $income * 0.8) {
-            return "⚠️ Kamu terlalu boros (lebih dari 80% income).";
-        }
-
-        if ($balance < 50000) {
-            return "💡 Saldo hampir habis, kurangi pengeluaran.";
-        }
-
-        return "✅ Keuangan stabil. Pertahankan pola ini.";
     }
 }
