@@ -36,19 +36,28 @@ class DashboardController extends Controller
         // =====================
         // BAR CHART (BULANAN)
         // =====================
+        $monthNames = [
+            1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
+            5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
+            9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Des',
+        ];
+
         $monthly = Transaction::selectRaw('
+            YEAR(date) as year,
             MONTH(date) as month,
             SUM(CASE WHEN type="income" THEN amount ELSE 0 END) as income,
             SUM(CASE WHEN type="expense" THEN amount ELSE 0 END) as expense
         ')
         ->where('user_id', $userId)
-        ->groupBy('month')
+        ->groupBy('year', 'month')
+        ->orderBy('year')
         ->orderBy('month')
         ->get();
 
-        $labels = $monthly->pluck('month');
+        $labels = $monthly->map(fn($m) => $monthNames[$m->month] . ' ' . $m->year);
         $incomeData = $monthly->pluck('income');
         $expenseData = $monthly->pluck('expense');
+
 
         // =====================
         // PIE CHART (KATEGORI)

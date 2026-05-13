@@ -35,14 +35,21 @@ class RegisteredUserController extends Controller
 
         // Create default categories
         $defaultCategories = [
-            ['name' => 'Gaji', 'type' => 'income'],
-            ['name' => 'Freelance', 'type' => 'income'],
-            ['name'=> 'Investasi', 'type' => 'income'],
-            ['name' => 'Makanan', 'type' => 'expense'],
+            // Income
+            ['name' => 'Gaji',         'type' => 'income'],
+            ['name' => 'Freelance',    'type' => 'income'],
+            ['name' => 'Investasi',    'type' => 'income'],
+            ['name' => 'Bonus',        'type' => 'income'],
+            ['name' => 'Lainnya',      'type' => 'income'],
+            // Expense
+            ['name' => 'Makanan',      'type' => 'expense'],
             ['name' => 'Transportasi', 'type' => 'expense'],
-            ['name' => 'Belanja', 'type' => 'expense'],
-            ['name' => 'Tagihan', 'type' => 'expense'],
-            ['name' => 'Hiburan', 'type' => 'expense'],
+            ['name' => 'Belanja',      'type' => 'expense'],
+            ['name' => 'Kesehatan',    'type' => 'expense'],
+            ['name' => 'Hiburan',      'type' => 'expense'],
+            ['name' => 'Tagihan',      'type' => 'expense'],
+            ['name' => 'Pendidikan',   'type' => 'expense'],
+            ['name' => 'Lainnya',      'type' => 'expense'],
         ];
 
         foreach ($defaultCategories as $cat) {
