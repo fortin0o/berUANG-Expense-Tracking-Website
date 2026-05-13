@@ -235,30 +235,129 @@
         
         .preview-image {
             flex: 1;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 24px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 60px 40px;
-            min-height: 400px;
-            box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            padding: 40px 20px;
+            perspective: 2000px;
+            min-height: 500px;
         }
         
-        .preview-image:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 25px 50px rgba(0, 0, 0, 0.2);
+        .preview-stack {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            height: 400px;
+            transform-style: preserve-3d;
         }
         
-        .preview-text {
-            font-family: 'Roboto';
-            font-weight: 600;
-            font-size: 20px;
-            color: white;
-            text-align: center;
-            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        .browser-mockup {
+            position: absolute;
+            width: 100%;
+            background: #FFFFFF;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.08);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        /* Staggered positions */
+        .mockup-1 {
+            z-index: 3;
+            transform: translateZ(50px);
+        }
+        
+        .mockup-2 {
+            z-index: 2;
+            transform: translate(-30px, -30px) rotate(-2deg);
+            opacity: 0.8;
+        }
+        
+        .mockup-3 {
+            z-index: 1;
+            transform: translate(30px, 30px) rotate(2deg);
+            opacity: 0.6;
+        }
+        
+        /* Hover effects for the stack */
+        .preview-image:hover .mockup-1 {
+            transform: translateZ(100px) translateY(-10px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+        }
+        
+        .preview-image:hover .mockup-2 {
+            transform: translate(-80px, -50px) rotate(-5deg) translateZ(20px);
+            opacity: 1;
+        }
+        
+        .preview-image:hover .mockup-3 {
+            transform: translate(80px, 50px) rotate(5deg) translateZ(20px);
+            opacity: 1;
+        }
+        
+        .browser-header {
+            background: #F5F5F5;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        
+        .dot-red, .dot-yellow, .dot-green {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .dot-red { background: #FF5F56; }
+        .dot-yellow { background: #FFBD2E; }
+        .dot-green { background: #27C93F; }
+        
+        .browser-address {
+            flex: 1;
+            background: white;
+            height: 16px;
+            border-radius: 3px;
+            margin: 0 8px;
+            border: 1px solid #E8E8E8;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 9px;
+            color: #AAA;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .browser-content {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: #FDFDFC;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dashboard-preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+        
+        /* Mobile adjustments for the stack */
+        @media (max-width: 768px) {
+            .preview-image {
+                min-height: 350px;
+            }
+            .mockup-2, .mockup-3 {
+                display: none;
+            }
+            .mockup-1 {
+                transform: none;
+            }
         }
         
         /* ========== FEATURES SECTION ========== */
@@ -1410,7 +1509,46 @@
                 @endguest
             </div>
             <div class="preview-image">
-                <div class="preview-text">📊 PREVIEW DASHBOARD</div>
+                <div class="preview-stack">
+                    <!-- Mockup 3 (Bottom) -->
+                    <div class="browser-mockup mockup-3">
+                        <div class="browser-header">
+                            <div class="dot-red"></div>
+                            <div class="dot-yellow"></div>
+                            <div class="dot-green"></div>
+                            <div class="browser-address">beruang-expense-website/transactions</div>
+                        </div>
+                        <div class="browser-content">
+                            <img src="{{ asset('images/p2.avif') }}" alt="Transaction Preview" class="dashboard-preview-img">
+                        </div>
+                    </div>
+                    
+                    <!-- Mockup 2 (Middle) -->
+                    <div class="browser-mockup mockup-2">
+                        <div class="browser-header">
+                            <div class="dot-red"></div>
+                            <div class="dot-yellow"></div>
+                            <div class="dot-green"></div>
+                            <div class="browser-address">beruang-expense-website/reports</div>
+                        </div>
+                        <div class="browser-content">
+                            <img src="{{ asset('images/p3.avif') }}" alt="Report Preview" class="dashboard-preview-img">
+                        </div>
+                    </div>
+                    
+                    <!-- Mockup 1 (Top/Main) -->
+                    <div class="browser-mockup mockup-1">
+                        <div class="browser-header">
+                            <div class="dot-red"></div>
+                            <div class="dot-yellow"></div>
+                            <div class="dot-green"></div>
+                            <div class="browser-address">beruang-expense-website/dashboard</div>
+                        </div>
+                        <div class="browser-content">
+                            <img src="{{ asset('images/P1.avif') }}" alt="Dashboard Preview" class="dashboard-preview-img">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
