@@ -29,12 +29,16 @@ class ProfileController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email',
+            'email' => 'required|email|max:255|unique:users,email,'.$user->id,
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $user->name = $request->name;
         $user->email = $request->email;
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
 
         // Upload foto
         if ($request->hasFile('photo')) {
@@ -44,7 +48,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return back()->with('success', 'Profile berhasil diupdate!');
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
@@ -52,7 +56,7 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validate([
+        $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
 

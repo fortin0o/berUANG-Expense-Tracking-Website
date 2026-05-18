@@ -7,6 +7,7 @@
 
     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('patch')
 
         <!-- FOTO -->
         <div class="text-center mb-6">
@@ -36,6 +37,18 @@
 
     <div class="flex items-center justify-end gap-3 mt-8">
 
+    <!-- Simpan -->
+    <button type="submit"
+        class="px-6 py-2 rounded-lg font-semibold
+               bg-[#4F772D] hover:bg-[#3f6123] text-white
+               shadow-md hover:shadow-lg
+               transition duration-200">
+        Simpan Perubahan
+    </button>
+    </div>
+    </form>
+    
+    <div class="flex items-center justify-end gap-3 mt-4">
     <!-- Logout -->
     <form method="POST" action="{{ route('logout') }}">
         @csrf
@@ -46,15 +59,6 @@
             Logout
         </button>
     </form>
-
-    <!-- Simpan -->
-    <button type="submit"
-        class="px-6 py-2 rounded-lg font-semibold
-               bg-[#4F772D] hover:bg-[#3f6123] text-white
-               shadow-md hover:shadow-lg
-               transition duration-200">
-        Simpan Perubahan
-    </button>
 
 </div>
 </div>
