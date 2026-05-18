@@ -70,6 +70,67 @@ PROMPT;
     }
 
     /**
+     * Analyze a receipt image and return extracted data as JSON.
+     */
+    public function analyzeReceipt(string $base64Image, string $mimeType): ?array
+    {
+        if (empty($this->apiKey)) {
+            return null;
+        }
+
+        $prompt = <<<PROMPT
+Anda adalah asisten AI yang ahli dalam membaca struk belanja/pembayaran (OCR). 
+Ekstrak informasi dari gambar struk berikut dan kembalikan HANYA dalam format JSON yang valid, tanpa tambahan teks apapun di luar JSON.
+
+Format JSON yang dibutuhkan:
+{
+    "title": "Nama Toko / Judul Singkat Transaksi",
+    "amount": Angka Total (integer, hilangkan Rp/titik/koma, misal 50000),
+    "date": "Tanggal transaksi dalam format YYYY-MM-DD. Jika tidak ada, gunakan tanggal hari ini",
+    "description": "Catatan singkat atau daftar item utama (maksimal 1-2 kalimat)",
+    "category_name": "Satu kata yang paling cocok untuk kategori (misal: Makanan, Transportasi, Belanja, Tagihan, Kesehatan, Hiburan)"
+}
+PROMPT;
+
+        try {
+            $response = Http::timeout(15)
+                ->post("{$this->endpoint}?key={$this->apiKey}", [
+                    'contents' => [
+                        [
+                            'parts' => [
+                                ['text' => $prompt],
+                                [
+                                    'inlineData' => [
+                                        'mimeType' => $mimeType,
+                                        'data'     => $base64Image,
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    'generationConfig' => [
+                        'temperature'     => 0.2, // Low temp for more accurate extraction
+                        'maxOutputTokens' => 300,
+                        'responseMimeType' => 'application/json', // Force JSON output
+                    ],
+                ]);
+
+            if ($response->successful()) {
+                $text = $response->json('candidates.0.content.parts.0.text');
+                if ($text) {
+                    return json_decode($text, true);
+                }
+            }
+
+            Log::warning('Gemini API Vision error: ' . $response->status() . ' ' . $response->body());
+        } catch (\Throwable $e) {
+            Log::warning('Gemini Vision request failed: ' . $e->getMessage());
+        }
+
+        return null;
+    }
+
+    /**
      * Send a prompt to Gemini and return the text response.
      */
     private function ask(string $prompt, string $fallback): string

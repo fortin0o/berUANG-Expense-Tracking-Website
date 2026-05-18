@@ -61,6 +61,28 @@ class TransactionController extends Controller
     // =========================
     // STORE TRANSAKSI
     // =========================
+    public function analyzeReceipt(Request $request, GeminiService $gemini)
+    {
+        $request->validate([
+            'receipt' => 'required|image|max:5120', // Max 5MB
+        ]);
+
+        $file = $request->file('receipt');
+        $base64Image = base64_encode(file_get_contents($file->path()));
+        $mimeType = $file->getMimeType();
+
+        $data = $gemini->analyzeReceipt($base64Image, $mimeType);
+
+        if (!$data) {
+            return response()->json(['error' => 'Gagal menganalisis struk. Pastikan API key valid.'], 500);
+        }
+
+        return response()->json($data);
+    }
+
+    // =========================
+    // STORE TRANSAKSI
+    // =========================
     public function store(Request $request)
     {
         $request->validate([
