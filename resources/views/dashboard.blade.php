@@ -5,6 +5,22 @@
 
 @section('content')
 
+<!-- ===== DATE RANGE FILTER ===== -->
+<div class="mb-6 p-4 rounded-xl bg-white shadow-sm border border-gray-100 flex items-center justify-between">
+    <div>
+        <h3 class="font-semibold text-gray-700">Filter Tanggal</h3>
+    </div>
+    <form action="{{ route('dashboard') }}" method="GET" class="flex items-center space-x-3">
+        <input type="date" name="start_date" value="{{ $startDate }}" class="text-sm border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+        <span class="text-gray-500">-</span>
+        <input type="date" name="end_date" value="{{ $endDate }}" class="text-sm border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+        <button type="submit" class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 text-sm rounded-md transition duration-150">Terapkan</button>
+        @if($startDate || $endDate)
+            <a href="{{ route('dashboard') }}" class="text-xs text-gray-500 hover:text-gray-700 underline">Reset</a>
+        @endif
+    </form>
+</div>
+
 <!-- ===== AI INSIGHT ===== -->
 <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-green-50 to-green-100 border border-green-200">
     <h3 class="font-semibold text-green-800 mb-1">AI Financial Insight</h3>

@@ -14,6 +14,12 @@
 
     <div class="flex gap-2">
 
+        <!-- EXPORT CSV -->
+        <a href="{{ route('transactions.export.csv') }}"
+           class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-lg shadow transition">
+            Export CSV
+        </a>
+
         <!-- EXPORT PDF -->
         <a href="{{ route('transactions.export.pdf') }}"
            class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow transition">

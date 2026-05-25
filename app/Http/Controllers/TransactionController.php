@@ -172,4 +172,51 @@ class TransactionController extends Controller
 
         return $pdf->download('laporan-transaksi.pdf');
     }
+
+    // =========================
+    // EXPORT CSV
+    // =========================
+    public function exportCsv()
+    {
+        $userId = Auth::id();
+
+        $transactions = Transaction::where('user_id', $userId)
+            ->with('category')
+            ->orderBy('date', 'desc')
+            ->get();
+
+        $fileName = 'laporan-transaksi-' . now()->format('Y-m-d') . '.csv';
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = ['Tanggal', 'Bulan', 'Tahun', 'Judul', 'Kategori', 'Tipe', 'Nominal (Rp)', 'Deskripsi'];
+
+        $callback = function() use($transactions, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($transactions as $t) {
+                $row['Tanggal']  = date('Y-m-d', strtotime($t->date));
+                $row['Bulan']    = date('m', strtotime($t->date));
+                $row['Tahun']    = date('Y', strtotime($t->date));
+                $row['Judul']    = $t->title;
+                $row['Kategori'] = $t->category->name ?? '-';
+                $row['Tipe']     = ucfirst($t->type);
+                $row['Nominal']  = $t->amount;
+                $row['Deskripsi'] = $t->description ?? '-';
+
+                fputcsv($file, array($row['Tanggal'], $row['Bulan'], $row['Tahun'], $row['Judul'], $row['Kategori'], $row['Tipe'], $row['Nominal'], $row['Deskripsi']));
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
