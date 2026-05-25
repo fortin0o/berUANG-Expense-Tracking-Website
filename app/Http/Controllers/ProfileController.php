@@ -40,8 +40,23 @@ class ProfileController extends Controller
             $user->email_verified_at = null;
         }
 
-        // Upload foto
-        if ($request->hasFile('photo')) {
+        // Upload cropped foto
+        if ($request->filled('photo_base64')) {
+            $image_parts = explode(";base64,", $request->photo_base64);
+            if (count($image_parts) >= 2) {
+                $image_base64 = base64_decode($image_parts[1]);
+                $fileName = 'profile/' . uniqid() . '.jpg';
+                
+                // Delete old photo to save space
+                if ($user->profile_photo && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->profile_photo)) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($user->profile_photo);
+                }
+                
+                \Illuminate\Support\Facades\Storage::disk('public')->put($fileName, $image_base64);
+                $user->profile_photo = $fileName;
+            }
+        } elseif ($request->hasFile('photo')) {
+            // Fallback
             $path = $request->file('photo')->store('profile', 'public');
             $user->profile_photo = $path;
         }
