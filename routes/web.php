@@ -24,8 +24,6 @@ Route::middleware(['auth'])->group(function () {
     // Transactions — register export-pdf BEFORE resource to avoid route conflict
     Route::get('/transactions/export-pdf', [TransactionController::class, 'exportPdf'])
         ->name('transactions.export.pdf');
-    Route::post('/transactions/analyze-receipt', [TransactionController::class, 'analyzeReceipt'])
-        ->name('transactions.analyze.receipt');
     Route::resource('transactions', TransactionController::class)->except(['show']);
 
     Route::resource('categories', CategoryController::class);

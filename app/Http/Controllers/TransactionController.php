@@ -60,18 +60,6 @@ class TransactionController extends Controller
     // =========================
     // STORE TRANSAKSI
     // =========================
-    public function analyzeReceipt(Request $request)
-    {
-        $request->validate([
-            'receipt' => 'required|image|max:5120', // Max 5MB
-        ]);
-
-        return response()->json(['error' => 'Fitur AI telah dinonaktifkan.'], 500);
-    }
-
-    // =========================
-    // STORE TRANSAKSI
-    // =========================
     public function store(Request $request)
     {
         $request->validate([
