@@ -1777,7 +1777,7 @@
     </div>
     
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" id="footer-contact">
         <div class="footer-container">
             <div class="footer-content">
                 <div class="footer-logo-section">
