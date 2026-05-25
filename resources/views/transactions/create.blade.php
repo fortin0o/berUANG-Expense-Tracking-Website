@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="max-w-xl mx-auto bg-white rounded-2xl shadow-lg p-6">
+<div class="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
 
     @if ($errors->any())
         <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -22,41 +22,41 @@
 
         <!-- Nama -->
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-semibold mb-2">
+            <label class="block text-gray-700 dark:text-gray-200 text-sm font-semibold mb-2">
                 Nama Transaksi
             </label>
             <input type="text" name="title" value="{{ old('title') }}" required
-                class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 @error('title') border-red-400 @enderror">
+                class="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 dark:focus:ring-green-500 @error('title') border-red-400 @enderror">
             @error('title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         <!-- Jumlah -->
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-semibold mb-2">
+            <label class="block text-gray-700 dark:text-gray-200 text-sm font-semibold mb-2">
                 Jumlah (Rp)
             </label>
             <input type="number" name="amount" value="{{ old('amount') }}" required min="1"
-                class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 @error('amount') border-red-400 @enderror">
+                class="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 dark:focus:ring-green-500 @error('amount') border-red-400 @enderror">
             @error('amount') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         <!-- Tanggal -->
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-semibold mb-2">
+            <label class="block text-gray-700 dark:text-gray-200 text-sm font-semibold mb-2">
                 Tanggal
             </label>
             <input type="date" name="date" value="{{ old('date', date('Y-m-d')) }}" required
-                class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 @error('date') border-red-400 @enderror">
+                class="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 dark:focus:ring-green-500 @error('date') border-red-400 @enderror">
             @error('date') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         <!-- Tipe -->
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-semibold mb-2">
+            <label class="block text-gray-700 dark:text-gray-200 text-sm font-semibold mb-2">
                 Tipe
             </label>
             <select name="type" id="type-select"
-                class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600">
+                class="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 dark:focus:ring-green-500">
                 <option value="income" {{ old('type') == 'income' ? 'selected' : '' }}>Pemasukan</option>
                 <option value="expense" {{ old('type') == 'expense' ? 'selected' : '' }}>Pengeluaran</option>
             </select>
@@ -65,11 +65,11 @@
 
         <!-- Kategori (filtered by type) -->
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-semibold mb-2">
+            <label class="block text-gray-700 dark:text-gray-200 text-sm font-semibold mb-2">
                 Kategori
             </label>
             <select name="category_id" id="category-select" required
-                class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 @error('category_id') border-red-400 @enderror">
+                class="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 dark:focus:ring-green-500 @error('category_id') border-red-400 @enderror">
                 <option value="">-- Pilih Kategori --</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}"
@@ -84,11 +84,11 @@
 
         <!-- Deskripsi -->
         <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-semibold mb-2">
-                Deskripsi <span class="text-gray-400 font-normal">(opsional)</span>
+            <label class="block text-gray-700 dark:text-gray-200 text-sm font-semibold mb-2">
+                Deskripsi <span class="text-gray-400 dark:text-gray-500 font-normal">(opsional)</span>
             </label>
             <textarea name="description" rows="2" maxlength="500"
-                class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 resize-none @error('description') border-red-400 @enderror"
+                class="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 dark:focus:ring-green-500 resize-none @error('description') border-red-400 @enderror"
                 placeholder="Catatan tambahan...">{{ old('description') }}</textarea>
             @error('description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
@@ -97,7 +97,7 @@
         <div class="flex justify-between items-center">
 
             <a href="{{ route('transactions.index') }}"
-               class="text-gray-500 hover:text-gray-700">
+               class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                Batal
             </a>
 

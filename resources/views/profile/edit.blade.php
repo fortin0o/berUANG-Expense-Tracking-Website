@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('header', 'Edit Profile')
 
 @section('content')
-<div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow">
+<div class="max-w-xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-2xl shadow">
 
     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -18,21 +18,21 @@
                 class="w-24 h-24 rounded-full mx-auto mb-3 object-cover"
             >
 
-            <input type="file" name="photo" class="text-sm">
+            <input type="file" name="photo" class="text-sm dark:text-gray-300">
         </div>
 
         <!-- NAME -->
         <div class="mb-4">
-            <label class="block mb-1 font-semibold">Nama</label>
+            <label class="block mb-1 font-semibold dark:text-gray-200">Nama</label>
             <input type="text" name="name" value="{{ $user->name }}"
-                class="w-full border rounded-lg px-4 py-2">
+                class="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2">
         </div>
 
         <!-- EMAIL -->
         <div class="mb-6">
-            <label class="block mb-1 font-semibold">Email</label>
+            <label class="block mb-1 font-semibold dark:text-gray-200">Email</label>
             <input type="email" name="email" value="{{ $user->email }}"
-                class="w-full border rounded-lg px-4 py-2">
+                class="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2">
         </div>
 
     <div class="flex items-center justify-end gap-3 mt-8">

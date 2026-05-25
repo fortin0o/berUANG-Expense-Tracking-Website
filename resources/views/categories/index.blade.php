@@ -12,14 +12,14 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Kategori Pemasukan -->
-    <div class="bg-white rounded-xl shadow-md overflow-hidden">
-        <div class="bg-green-100 px-6 py-4 border-b border-green-200">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+        <div class="bg-green-100 dark:bg-green-900/30 px-6 py-4 border-b border-green-200 dark:border-green-800">
             <h3 class="text-lg font-semibold text-green-800">Kategori Pemasukan</h3>
         </div>
-        <div class="divide-y divide-gray-100">
+        <div class="divide-y divide-gray-100 dark:divide-gray-700">
             @forelse($incomeCategories as $cat)
-            <div class="flex justify-between items-center px-6 py-4 hover:bg-gray-50 transition">
-                <span class="text-gray-800 font-medium">{{ $cat->name }}</span>
+            <div class="flex justify-between items-center px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                <span class="text-gray-800 dark:text-gray-200 font-medium">{{ $cat->name }}</span>
                 <div class="flex gap-3">
                     <a href="{{ route('categories.edit', $cat) }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Edit</a>
                     <form action="{{ route('categories.destroy', $cat) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus kategori ini?')">
@@ -30,20 +30,20 @@
                 </div>
             </div>
             @empty
-            <div class="px-6 py-8 text-center text-gray-500">Belum ada kategori pemasukan. <a href="{{ route('categories.create') }}" class="text-green-600">Buat sekarang</a></div>
+            <div class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">Belum ada kategori pemasukan. <a href="{{ route('categories.create') }}" class="text-green-600 dark:text-green-400">Buat sekarang</a></div>
             @endforelse
         </div>
     </div>
 
     <!-- Kategori Pengeluaran -->
-    <div class="bg-white rounded-xl shadow-md overflow-hidden">
-        <div class="bg-red-100 px-6 py-4 border-b border-red-200">
-            <h3 class="text-lg font-semibold text-red-800"> Kategori Pengeluaran</h3>
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+        <div class="bg-red-100 dark:bg-red-900/30 px-6 py-4 border-b border-red-200 dark:border-red-800">
+            <h3 class="text-lg font-semibold text-red-800 dark:text-red-400"> Kategori Pengeluaran</h3>
         </div>
-        <div class="divide-y divide-gray-100">
+        <div class="divide-y divide-gray-100 dark:divide-gray-700">
             @forelse($expenseCategories as $cat)
-            <div class="flex justify-between items-center px-6 py-4 hover:bg-gray-50 transition">
-                <span class="text-gray-800 font-medium">{{ $cat->name }}</span>
+            <div class="flex justify-between items-center px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                <span class="text-gray-800 dark:text-gray-200 font-medium">{{ $cat->name }}</span>
                 <div class="flex gap-3">
                     <a href="{{ route('categories.edit', $cat) }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Edit</a>
                     <form action="{{ route('categories.destroy', $cat) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus kategori ini?')">
@@ -54,7 +54,7 @@
                 </div>
             </div>
             @empty
-            <div class="px-6 py-8 text-center text-gray-500">Belum ada kategori pengeluaran. <a href="{{ route('categories.create') }}" class="text-green-600">Buat sekarang</a></div>
+            <div class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">Belum ada kategori pengeluaran. <a href="{{ route('categories.create') }}" class="text-green-600 dark:text-green-400">Buat sekarang</a></div>
             @endforelse
         </div>
     </div>
