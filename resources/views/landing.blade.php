@@ -1801,10 +1801,16 @@
                     </div>
                 </div>
                 <div class="footer-form">
-                    <input type="text" placeholder="Your Name">
-                    <input type="email" placeholder="Email Address">
-                    <textarea rows="2" placeholder="Message"></textarea>
-                    <button>Send Message</button>
+                    @if (session('success'))
+                        <div style="color: #A3E635; margin-bottom: 10px;">{{ session('success') }}</div>
+                    @endif
+                    <form action="{{ route('contact.store') }}" method="POST" style="display: flex; flex-direction: column;">
+                        @csrf
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Email Address" required>
+                        <textarea name="message" rows="2" placeholder="Message" required></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
                 </div>
             </div>
             <div class="footer-bottom">

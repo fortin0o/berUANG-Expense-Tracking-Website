@@ -4,12 +4,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactMessageController;
 use Illuminate\Support\Facades\Route;
 
 // Landing Page (bisa diakses semua orang)
 Route::get('/', function () {
     return view('landing');
 })->name('landing');
+
+Route::post('/contact', [ContactMessageController::class, 'store'])->name('contact.store');
 
 // Routes Breeze (auth)
 require __DIR__.'/auth.php';
