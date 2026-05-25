@@ -17,12 +17,12 @@ class DashboardController extends Controller
 
         // Base query for reuse
         $baseQuery = function() use ($userId, $startDate, $endDate) {
-            $query = Transaction::where('user_id', $userId);
+            $query = Transaction::where('transactions.user_id', $userId);
             if ($startDate) {
-                $query->whereDate('date', '>=', $startDate);
+                $query->whereDate('transactions.date', '>=', $startDate);
             }
             if ($endDate) {
-                $query->whereDate('date', '<=', $endDate);
+                $query->whereDate('transactions.date', '<=', $endDate);
             }
             return $query;
         };
@@ -59,10 +59,10 @@ class DashboardController extends Controller
         ];
 
         $monthly = (clone $baseQuery())->selectRaw('
-            YEAR(date) as year,
-            MONTH(date) as month,
-            SUM(CASE WHEN type="income" THEN amount ELSE 0 END) as income,
-            SUM(CASE WHEN type="expense" THEN amount ELSE 0 END) as expense
+            YEAR(transactions.date) as year,
+            MONTH(transactions.date) as month,
+            SUM(CASE WHEN transactions.type="income" THEN transactions.amount ELSE 0 END) as income,
+            SUM(CASE WHEN transactions.type="expense" THEN transactions.amount ELSE 0 END) as expense
         ')
         ->groupBy('year', 'month')
         ->orderBy('year')
