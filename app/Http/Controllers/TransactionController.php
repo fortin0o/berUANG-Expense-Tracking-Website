@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Category;
-use App\Services\GeminiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -61,23 +60,13 @@ class TransactionController extends Controller
     // =========================
     // STORE TRANSAKSI
     // =========================
-    public function analyzeReceipt(Request $request, GeminiService $gemini)
+    public function analyzeReceipt(Request $request)
     {
         $request->validate([
             'receipt' => 'required|image|max:5120', // Max 5MB
         ]);
 
-        $file = $request->file('receipt');
-        $base64Image = base64_encode(file_get_contents($file->path()));
-        $mimeType = $file->getMimeType();
-
-        $data = $gemini->analyzeReceipt($base64Image, $mimeType);
-
-        if (!$data) {
-            return response()->json(['error' => 'Gagal menganalisis struk. Pastikan API key valid.'], 500);
-        }
-
-        return response()->json($data);
+        return response()->json(['error' => 'Fitur AI telah dinonaktifkan.'], 500);
     }
 
     // =========================
@@ -183,13 +172,7 @@ class TransactionController extends Controller
 
         $balance = $totalIncome - $totalExpense;
 
-        $gemini = new GeminiService();
-        $insight = $gemini->reportInsight(
-            $balance,
-            $totalIncome,
-            $totalExpense,
-            $transactions->count()
-        );
+        $insight = "Insight functionality has been disabled.";
 
         $pdf = Pdf::loadView('pdf.transactions', compact(
             'transactions',

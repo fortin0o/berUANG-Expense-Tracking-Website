@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
-use App\Services\GeminiService;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -78,20 +77,9 @@ class DashboardController extends Controller
         $categoryData = $categories->pluck('total');
 
         // =====================
-        // 🤖 GEMINI AI INSIGHT
+        // 🤖 GEMINI AI INSIGHT  (Removed)
         // =====================
-        $topCategories = $categories->take(3)->map(fn($c) => [
-            'name'  => $c->name,
-            'total' => $c->total,
-        ])->toArray();
-
-        $gemini = new GeminiService();
-        $insight = $gemini->dashboardInsight(
-            $balance,
-            $totalIncome,
-            $totalExpense,
-            $topCategories
-        );
+        $insight = "Insight functionality has been disabled.";
 
         // =====================
         // RETURN VIEW
