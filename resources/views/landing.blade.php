@@ -104,6 +104,8 @@
             display: flex;
             gap: 25px;
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
         .nav-menu a {
@@ -1128,7 +1130,11 @@
             }
             
             .nav-buttons {
+                display: flex;
+                width: 100%;
+                justify-content: center;
                 gap: 8px;
+                flex-wrap: wrap;
             }
             
             .btn-login, .btn-signin {
@@ -1293,7 +1299,11 @@
             }
             
             .nav-buttons {
+                display: flex;
+                width: 100%;
+                justify-content: center;
                 gap: 6px;
+                flex-wrap: wrap;
             }
             
             .btn-login, .btn-signin {

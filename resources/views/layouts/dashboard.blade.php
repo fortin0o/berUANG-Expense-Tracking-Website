@@ -26,8 +26,8 @@
         body {
             font-family: 'Inter', sans-serif;
             background: #4F772D;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow: auto;
         }
 
         .dark body {
@@ -130,23 +130,74 @@
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .sidebar {
-                width: 80px;
-                padding: 20px 10px;
+                width: 180px;
+            }
+
+            .logo-wrapper {
+                width: 60px;
+                height: 60px;
+            }
+
+            .menu-item {
+                height: 50px;
+                font-size: 13px;
+            }
+
+            .main-content {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: sticky;
+                top: 0;
+                left: 0;
+                right: 0;
+                padding: 16px 14px;
+                border-radius: 0;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+                z-index: 50;
+            }
+
+            .sidebar-menu {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: flex-end;
+                width: auto;
+                margin-left: auto;
+            }
+
+            .menu-item {
+                min-width: auto;
+                height: auto;
+                padding: 10px 12px;
+                font-size: 12px;
+                border-radius: 999px;
+                margin-bottom: 0;
+                white-space: nowrap;
             }
 
             .logo-wrapper {
                 width: 50px;
                 height: 50px;
-            }
-
-            .menu-item {
-                font-size: 10px;
-                height: 50px;
+                margin-bottom: 0;
             }
 
             .main-content {
+                border-radius: 0;
                 padding: 20px;
             }
         }
