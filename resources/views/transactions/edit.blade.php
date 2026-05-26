@@ -33,9 +33,10 @@
         <!-- Amount -->
         <div class="mb-4">
             <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Jumlah (Rp)</label>
-            <input type="number" name="amount"
+            <input type="text" inputmode="decimal" pattern="[0-9.,]*" name="amount"
                    value="{{ old('amount', $transaction->amount) }}" required min="1"
-                   class="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-600 dark:focus:ring-green-500 @error('amount') border-red-400 @enderror">
+                   class="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-600 dark:focus:ring-green-500 @error('amount') border-red-400 @enderror"
+                   placeholder="100000000">
             @error('amount') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 

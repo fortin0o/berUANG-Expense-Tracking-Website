@@ -62,6 +62,8 @@ class TransactionController extends Controller
     // =========================
     public function store(Request $request)
     {
+        $request->merge(['amount' => $this->normalizeAmount($request->amount)]);
+
         $request->validate([
             'title'       => 'required|string|max:255',
             'amount'      => 'required|numeric|min:1|max:1000000000',
@@ -103,6 +105,8 @@ class TransactionController extends Controller
     public function update(Request $request, Transaction $transaction)
     {
         if ($transaction->user_id !== Auth::id()) abort(403);
+
+        $request->merge(['amount' => $this->normalizeAmount($request->amount)]);
 
         $request->validate([
             'title'       => 'required|string|max:255',
@@ -218,5 +222,34 @@ class TransactionController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Normalize formatted amount input so users can enter thousands separators.
+     */
+    private function normalizeAmount($amount)
+    {
+        if (is_numeric($amount)) {
+            return $amount;
+        }
+
+        $sanitized = preg_replace('/[^\d\.,-]/u', '', trim($amount));
+
+        if (strpos($sanitized, ',') !== false && strpos($sanitized, '.') !== false) {
+            // Indonesian-style grouping: 1.234.567,89
+            $sanitized = str_replace('.', '', $sanitized);
+            $sanitized = str_replace(',', '.', $sanitized);
+        } elseif (substr_count($sanitized, '.') > 1 && strpos($sanitized, ',') === false) {
+            // Grouped with dots: 1.234.567
+            $sanitized = str_replace('.', '', $sanitized);
+        } elseif (substr_count($sanitized, ',') > 1 && strpos($sanitized, '.') === false) {
+            // Grouped with commas: 1,234,567
+            $sanitized = str_replace(',', '', $sanitized);
+        } elseif (strpos($sanitized, ',') !== false) {
+            // Decimal comma
+            $sanitized = str_replace(',', '.', $sanitized);
+        }
+
+        return $sanitized;
     }
 }
