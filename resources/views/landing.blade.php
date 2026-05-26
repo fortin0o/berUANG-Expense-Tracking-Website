@@ -144,6 +144,38 @@
             gap: 10px;
             align-items: center;
         }
+
+        .menu-toggle {
+            display: none;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            margin: 4px 0;
+            background: #333333;
+            border-radius: 999px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .navbar.open .menu-toggle span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .navbar.open .menu-toggle span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar.open .menu-toggle span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
         
         .btn-login {
             font-family: 'Roboto';
@@ -1096,33 +1128,54 @@
         /* Mobile Landscape */
         @media (min-width: 481px) and (max-width: 768px) {
             body {
-                padding-top: 80px;
+                padding-top: 72px;
             }
             
             .navbar {
-                max-width: 90%;
-                padding: 6px 16px;
-                flex-wrap: wrap;
+                max-width: 92%;
+                padding: 10px 14px;
+                flex-direction: column;
+                align-items: stretch;
                 justify-content: center;
                 gap: 10px;
-                border-radius: 30px;
+                border-radius: 26px;
             }
             
             .logo-nav {
-                width: 50px;
-                height: 50px;
+                width: 42px;
+                height: 42px;
+            }
+            
+            .menu-toggle {
+                display: flex;
+                margin-left: auto;
+            }
+            
+            .nav-menu,
+            .nav-buttons {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .navbar.open .nav-menu,
+            .navbar.open .nav-buttons {
+                display: flex;
             }
             
             .nav-menu {
-                gap: 18px;
                 order: 3;
-                width: 100%;
                 justify-content: center;
+                padding-top: 8px;
+                border-top: 1px solid rgba(79, 119, 45, 0.12);
             }
             
             .nav-menu a {
                 font-size: 13px;
-                padding: 5px 0;
+                padding: 8px 0;
+                min-width: 80px;
             }
             
             .nav-menu a::after {
@@ -1130,16 +1183,15 @@
             }
             
             .nav-buttons {
-                display: flex;
-                width: 100%;
-                justify-content: center;
-                gap: 8px;
-                flex-wrap: wrap;
+                padding-top: 8px;
+                border-top: 1px solid rgba(79, 119, 45, 0.12);
             }
             
             .btn-login, .btn-signin {
-                padding: 5px 12px;
+                padding: 10px 14px;
                 font-size: 12px;
+                min-width: 100%;
+                max-width: 220px;
             }
             
             .hero-section {
@@ -1263,52 +1315,100 @@
         /* Mobile Portrait */
         @media (max-width: 480px) {
             body {
-                padding-top: 70px;
+                padding-top: 66px;
             }
             
             .navbar {
-                max-width: 95%;
-                padding: 5px 12px;
-                flex-wrap: wrap;
+                max-width: 98%;
+                padding: 10px 12px;
+                flex-direction: column;
+                align-items: center;
                 justify-content: center;
                 gap: 8px;
-                border-radius: 25px;
+                border-radius: 24px;
                 margin: 0 auto;
                 top: 10px;
             }
             
             .navbar.navbar-scrolled {
-                padding: 3px 12px;
+                padding: 6px 12px;
             }
             
             .logo-nav {
-                width: 45px;
-                height: 45px;
+                width: 40px;
+                height: 40px;
             }
             
             .nav-menu {
-                gap: 14px;
+                gap: 12px;
                 order: 3;
                 width: 100%;
                 justify-content: center;
+                flex-wrap: wrap;
             }
             
             .nav-menu a {
-                font-size: 11px;
-                padding: 4px 0;
+                font-size: 12px;
+                padding: 6px 0;
+                min-width: 75px;
             }
             
             .nav-buttons {
                 display: flex;
                 width: 100%;
+                flex-direction: column;
+                align-items: center;
                 justify-content: center;
-                gap: 6px;
-                flex-wrap: wrap;
+                gap: 8px;
             }
             
             .btn-login, .btn-signin {
-                padding: 4px 10px;
-                font-size: 10px;
+                width: 100%;
+                max-width: 280px;
+                padding: 10px 0;
+                font-size: 12px;
+                text-align: center;
+            }
+            
+            .menu-toggle {
+                display: flex;
+                margin-left: auto;
+            }
+            
+            .nav-menu,
+            .nav-buttons {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .navbar.open .nav-menu,
+            .navbar.open .nav-buttons {
+                display: flex;
+            }
+            
+            .nav-menu {
+                order: 3;
+                justify-content: center;
+                padding-top: 10px;
+                border-top: 1px solid rgba(79, 119, 45, 0.12);
+            }
+            
+            .nav-menu a {
+                font-size: 12px;
+                padding: 8px 0;
+                min-width: 75px;
+            }
+            
+            .nav-menu a::after {
+                display: none;
+            }
+            
+            .nav-buttons {
+                padding-top: 10px;
+                border-top: 1px solid rgba(79, 119, 45, 0.12);
             }
             
             .hero-section {
@@ -1491,8 +1591,13 @@
 <body>
     <div class="landing-container">
         <!-- Navbar Putih dengan Blur -->
-        <div class="navbar">
+        <div class="navbar" id="landingNavbar">
             <div class="logo-nav"></div>
+            <button class="menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div class="nav-menu">
                 <a href="#beranda">Beranda</a>
                 <a href="#tentang">Tentang</a>
@@ -2016,6 +2121,24 @@
             setTimeout(updateSlider, 100);
             window.addEventListener('load', updateSlider);
         })();
+    </script>
+    <script>
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const landingNavbar = document.getElementById('landingNavbar');
+
+        if (mobileMenuToggle && landingNavbar) {
+            mobileMenuToggle.addEventListener('click', function () {
+                const isOpen = landingNavbar.classList.toggle('open');
+                mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!landingNavbar.contains(event.target) && landingNavbar.classList.contains('open')) {
+                    landingNavbar.classList.remove('open');
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
     </script>
 </body>
 </html>
